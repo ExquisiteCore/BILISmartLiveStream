@@ -1,0 +1,25 @@
+{
+    // 关于 tasks.json 格式文档，请参阅：https://go.microsoft.com/fwlink/?LinkId=733558
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "ui:dev",
+            "type": "shell",
+            "isBackground": true,
+            "command": "npm",
+            "args": [
+                "run",
+                "dev"
+            ]
+        },
+        {
+            "label": "ui:build",
+            "type": "shell",
+            "command": "npm",
+            "args": [
+                "run",
+                "build"
+            ]
+        }
+    ]
+}
