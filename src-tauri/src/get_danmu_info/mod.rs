@@ -1,7 +1,7 @@
 mod stream;
-use serde::Deserialize;
 
-use self::stream::data_bytes;
+use serde::Deserialize;
+use url::Url;
 
 #[derive(Debug, Deserialize)]
 pub struct HostInfo {
@@ -38,8 +38,15 @@ pub async fn get_danmu_info(id: &str) -> Result<ApiResponse, reqwest::Error> {
     .await?
     .json()
     .await?;
-    let mut i: u32 = 1;
-    let a = data_bytes(&mut i);
-    println!("{:?}", a);
+
+    let mut websocket_url = String::new();
+    if let Some(first_host) = data.data.host_list.get(0) {
+        // 拼接 ws://Host:ws_port 的字符串
+        websocket_url = format!("ws://{}:{}/sub", first_host.host, first_host.ws_port);
+    };
+
+    stream::ws_client(Url::parse("ws://zj-cn-live-comet.chat.bilibili.com:2244/sub").expect("msg"))
+        .await;
+
     Ok(data)
 }
